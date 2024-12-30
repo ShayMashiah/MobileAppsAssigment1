@@ -1,5 +1,6 @@
 package com.example.mobileappsassigment1
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,10 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener {
                 if (gameActive && button.text.isEmpty()) {
                     button.text = currentPlayer
+                    button.setTextColor(
+                        if (currentPlayer == "X") Color.BLUE else Color.RED
+                    )
+
                     board[row][col] = currentPlayer
                     if (checkWinner(row, col)) {
                         gameActive = false
@@ -67,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
+    //Checking if there is a winner
     private fun checkWinner(row: Int, col: Int): Boolean {
         // Check row
         if (board[row].all { it == currentPlayer }) return true
@@ -88,8 +93,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    //Checking if the board is full
     private fun isBoardFull(): Boolean = board.all { row -> row.all { it != null } }
 
+    //Reset game
     private fun resetGame() {
         for (i in 0 until gridLayout.childCount) {
             (gridLayout.getChildAt(i) as Button).text = ""
@@ -107,8 +114,16 @@ class MainActivity : AppCompatActivity() {
         currentPlayerTextView.visibility = View.VISIBLE
     }
 
+    //Updating who is the current player to play
     private fun updateCurrentPlayer() {
         currentPlayerTextView.text = "Current Player: $currentPlayer"
+
+        if (currentPlayer == "X") {
+            currentPlayerTextView.setTextColor(Color.BLUE)
+        } else {
+            currentPlayerTextView.setTextColor(Color.RED)
+        }
+
     }
 
 
